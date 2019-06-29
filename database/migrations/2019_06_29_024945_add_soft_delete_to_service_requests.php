@@ -6,27 +6,26 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddSoftDeleteToServiceRequests extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::table('service_requests', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-    }
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up() {
+    Schema::table('service_requests', function (Blueprint $table) {
+      $table->softDeletes();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('service_requests', function (Blueprint $table) {
-            //
-        });
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::table('service_requests', function (Blueprint $table) {
+      //
+    });
+  }
 }
