@@ -12,7 +12,8 @@ class ServiceRequestsController extends Controller {
    * @return view
    */
   public function index(){
-    $requests = ServiceRequests::orderBy('updated_at','desc')->paginate(20);
+//    $requests = ServiceRequests::orderBy('updated_at','desc')->paginate(20);
+    $requests = [];
     return view('index',compact('requests'));
   }
   /**

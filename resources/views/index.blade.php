@@ -36,7 +36,7 @@
               @endforeach
             </tbody>
           </table>
-        {{ $requests->links() }}
+{{--        {{ $requests->links() }}--}}
       </div>
     </div>
   </section>
