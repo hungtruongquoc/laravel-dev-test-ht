@@ -23,4 +23,11 @@ class ServiceRequestsController extends Controller {
   public function edit(ServiceRequests $serviceRequest){
 
   }
+
+  /**
+   * Show the create service request form
+   */
+  public function create() {
+    return view('create');
+  }
 }

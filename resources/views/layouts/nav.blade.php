@@ -10,7 +10,7 @@
         <a class="nav-link" href="{{ route('home') }}">Current Tickets</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Create a Ticket</a>
+        <a class="nav-link" href="{{ route('create') }}">Create a Ticket</a>
       </li>
     </ul>
   </div>

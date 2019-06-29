@@ -13,3 +13,4 @@
 
 Route::get('/', 'ServiceRequestsController@index')->name('home');
 Route::get('{id}', 'ServiceRequestsController@edit')->name('edit');
+Route::get('/create', 'ServiceRequestsController@create')->name('create');
