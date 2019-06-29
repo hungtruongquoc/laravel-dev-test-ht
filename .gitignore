@@ -13,3 +13,5 @@ yarn-error.log
 /laradock
 /.idea
 .DS_Store
+/storage/logs
+/storage/debugbar
