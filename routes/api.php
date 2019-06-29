@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::namespace('API')->group(function() {
+  Route::resource('vehicle-make', 'VehicleMakeController')
+       ->only(['index'])
+       ->names(['index' => 'vehicle-make.list']);
+  Route::resource('vehicle-model', 'VehicleModelController')
+       ->only(['index'])
+       ->names(['index' => 'vehicle-model.list']);;
+});
