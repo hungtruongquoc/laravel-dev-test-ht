@@ -11,6 +11,9 @@
 |
 */
 
+Route::prefix('requests')->group(function() {
+  Route::get('{id}/edit', 'ServiceRequestsController@edit')->name('edit');
+  Route::get('create', 'ServiceRequestsController@create')->name('create');
+  Route::post('store', 'ServiceRequestsController@create')->name('store');
+});
 Route::get('/', 'ServiceRequestsController@index')->name('home');
-Route::get('{id}', 'ServiceRequestsController@edit')->name('edit');
-Route::get('/create', 'ServiceRequestsController@create')->name('create');
