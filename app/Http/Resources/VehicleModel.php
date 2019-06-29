@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class VehicleModelCollection extends ResourceCollection{
+class VehicleModel extends JsonResource {
   /**
-   * Transform the resource collection into an array.
+   * Transform the resource into an array.
    *
    * @param \Illuminate\Http\Request $request
    * @return array

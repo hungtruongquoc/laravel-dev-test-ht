@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VehicleMakes;
 use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
 
@@ -28,6 +29,7 @@ class ServiceRequestsController extends Controller {
    * Show the create service request form
    */
   public function create() {
-    return view('create');
+    $makes = VehicleMakes::select(['id', 'title'])->get();
+    return view('create', compact('makes'));
   }
 }

@@ -1,17 +1,13 @@
 @extends('layouts.main')
 @section('content')
-  <div class="container">
+  <div class="container" id="app">
     <form method="POST" action="{{route('store')}}">
-      <div class="form-group">
-        @component('select', ['title' => 'Make', 'items' => $makes, 'id' => 'vehicle-make', 'name' => 'vehicle-make',
-         'autofocus' => true])
-        @endcomponent
-      </div>
-      <div class="form-group">
-        @component('select', ['title' => 'Model', 'items' => [], 'id' => 'vehicle-model', 'name' => 'vehicle-model',
-        'disabled' => true])
-        @endcomponent
-      </div>
+      @component('select', ['title' => 'Make', 'items' => $makes, 'id' => 'vehicle-make', 'name' => 'vehicle-make',
+       'autofocus' => true])
+      @endcomponent
+      @component('select', ['title' => 'Model', 'items' => [], 'id' => 'vehicle-model', 'name' => 'vehicle-model',
+      'disabled' => true])
+      @endcomponent
       <div class="form-group">
         <label for="owner-name" class="input-required">Owner's Name</label>
         <input type="text" class="form-control" id="owner-name" placeholder="Please provide your full name"
@@ -27,7 +23,7 @@
         <label for="owner-phone">Phone</label>
         <input type="email" class="form-control" id="owner-phone" placeholder="Enter phone number" name="owner-phone">
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" disabled>Submit</button>
     </form>
   </div>
 @endsection

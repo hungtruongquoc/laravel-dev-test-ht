@@ -952,9 +952,10 @@ autoprefixer@^9.4.2:
     postcss "^7.0.16"
     postcss-value-parser "^3.3.1"
 
-axios@^0.19:
+axios@^0.19.0:
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.0.tgz#8e09bff3d9122e133f7b8101c8fbdd00ed3d2ab8"
+  integrity sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ==
   dependencies:
     follow-redirects "1.5.10"
     is-buffer "^2.0.2"
@@ -5503,6 +5504,11 @@ vm-browserify@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
 
+vue-axios@2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-2.1.4.tgz#a9d298f7e876f9a87feb336b37adcbce34ff9f9f"
+  integrity sha512-DS8Q+WFT3i7nS0aZ/NMmTPf2yhbtlXhj4QEZmY69au/BshsGzGjC6dXaniZaPQlErP3J3Sv1HtQ4RVrXaUTkxA==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
@@ -5536,9 +5542,10 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
 
-vue@^2.5.17:
+vue@2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
+  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
 watchpack@^1.5.0:
   version "1.6.0"
