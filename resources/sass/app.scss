@@ -11,3 +11,10 @@
   padding-right:2rem;
   padding-left:2rem;
 }
+
+.input-required {
+  &::after {
+    content: '*';
+    color: #A5282C;
+  }
+}

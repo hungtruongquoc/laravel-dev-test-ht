@@ -15,3 +15,5 @@ yarn-error.log
 .DS_Store
 /storage/logs
 /storage/debugbar
+/public/js
+/public/css
