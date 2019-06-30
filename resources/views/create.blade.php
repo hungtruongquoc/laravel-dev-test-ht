@@ -7,8 +7,9 @@
     <small id="emailHelp" class="form-text text-info">* - All fields are required</small>
     <form method="POST" action="{{route('store')}}" @submit="checkFormValidity">
       @csrf
+      <input type="hidden" value="{{$makes}}" id="make-list">
       <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'" v-model="selectedMake"
-                  @selected-item-changed="loadModels" items="{{$makes}}" :autofocus="true">
+                  @selected-item-changed="loadModels" :items="makeList" :autofocus="true">
         <template v-slot:item-title="slotProps">
           @{{ slotProps.item.title }}
         </template>
