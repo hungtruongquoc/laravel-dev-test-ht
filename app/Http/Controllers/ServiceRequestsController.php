@@ -6,7 +6,6 @@ use App\Http\Requests\ServiceRequestHttpRequest;
 use App\Models\VehicleMakes;
 use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
-use Illuminate\Support\Facades\Log;
 
 class ServiceRequestsController extends Controller
 {
