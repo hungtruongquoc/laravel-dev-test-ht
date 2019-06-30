@@ -2,8 +2,8 @@
   <div class="form-group">
     <label :for="id">{{title}}</label>
     <select class="form-control" :id="id" :name="name" :autofocus="autofocus"
-            :disabled="disabled" @change="emitSelectedKey">
-      <option v-for="item in optionList" :value="item.id" :key="item.id">
+            :disabled="hasNoItem" @change="emitSelectedKey">
+      <option v-for="item in optionList" :value="item.id" :key="item.id" :selected="item.id === value">
         <slot name="item-title" :item="item"></slot>
       </option>
     </select>
@@ -19,22 +19,27 @@
       'name',
       'title',
       'autofocus',
-      'disabled'
+      'disabled',
+      'value'
     ],
-    data() {
-      return {
-        optionList: null,
-        modelList: null
-      }
-    },
-    created() {
-      if(this.items && this.items !== '') {
-        this.optionList = JSON.parse(this.items);
-      }
-    },
     methods: {
       emitSelectedKey(event) {
         this.$emit('selected-item-changed', event.target.value);
+        this.$emit('input', parseInt(event.target.value));
+      }
+    },
+    computed: {
+      optionList() {
+        if (this.items) {
+          if (typeof this.items === 'string') {
+            return JSON.parse(this.items);
+          }
+          return [].concat(this.items);
+        }
+        return null;
+      },
+      hasNoItem() {
+        return !this.optionList || this.optionList.length < 1;
       }
     }
   };

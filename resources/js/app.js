@@ -35,14 +35,23 @@ const app = new Vue({
   name: 'Page',
   data() {
     return {
-      modelList: null
-    }
+      modelList: null,
+      selectedMake: null,
+      selectedModel: null
+    };
   },
   methods: {
+    onGetModelSuccess({data: {data}}) {
+      this.modelList = JSON.parse(JSON.stringify(data));
+      this.selectedModel = null;
+    },
+    onGetModelFailed() {
+      this.modelList = null;
+    },
     loadModels(makeId) {
-      this.$http.get('/api/vehicle-model?make=' + makeId).catch(() => {
-        this.modelList = null;
-      });
+      this.$http.get('/api/vehicle-model?make=' + makeId)
+        .then(this.onGetModelSuccess.bind(this))
+        .catch(this.onGetModelFailed.bind(this));
     }
   }
 });

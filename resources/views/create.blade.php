@@ -2,13 +2,18 @@
 @section('content')
   <div class="container" id="app">
     <form method="POST" action="{{route('store')}}">
-      @component('select', ['title' => 'Make', 'jsonItems' => $makes, 'id' => 'vehicle-make', 'name' =>
-      'vehicle-make',
-       'autofocus' => true])
-      @endcomponent
-      @component('select', ['title' => 'Model', 'items' => 'modelList', 'id' => 'vehicle-model',
-      'name' => 'vehicle-model','disabled' => true])
-      @endcomponent
+      <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'" v-model="selectedMake"
+                  @selected-item-changed="loadModels" items="{{$makes}}" :autofocus="true">
+        <template v-slot:item-title="slotProps">
+          @{{ slotProps.item.title }}
+        </template>
+      </app-select>
+      <app-select title="Model" :id="'vehicle-model'" :name="'vehicle-model'" :items="modelList"
+                  v-model="selectedModel">
+        <template v-slot:item-title="slotProps">
+          @{{ slotProps.item.title }}
+        </template>
+      </app-select>
       <div class="form-group">
         <label for="owner-name" class="input-required">Owner's Name</label>
         <input type="text" class="form-control" id="owner-name" placeholder="Please provide your full name"
