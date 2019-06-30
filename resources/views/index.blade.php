@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('content')
-  <div id="app"></div>
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
@@ -14,7 +13,7 @@
   </header>
   <!-- List Tickets -->
   <section class="bg-light">
-    <div class="container">
+    <div class="container" id="request-list">
       @if (session('createStatus'))
         <div class="row">
           <div class="alert alert-success col">
@@ -38,7 +37,10 @@
                 <td>{{ $request->client_name }}</td>
                 <td>{{ $request->status }}</td>
                 <td>{{ $request->updated_at->format('m/d/Y h:i a') }}</td>
-                <td><a href="{{ route('edit',[$request->id]) }}" class="btn btn-primary">EDIT</a></td>
+                <td>
+                  <a href="{{ route('edit',[$request->id]) }}" class="btn btn-primary">EDIT</a>
+                  <a href="{{ route('service-request.delete',[$request->id]) }}" class="btn btn-danger">DELETE</a>
+                </td>
               </tr>
               @endforeach
             </tbody>
