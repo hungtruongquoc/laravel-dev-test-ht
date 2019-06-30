@@ -8,6 +8,6 @@ class VehicleMakes extends Model {
   protected $guarded = ['id'];
 
   public function models() {
-    return $this->hasMany(VehicleModels::class);
+    return $this->hasMany(VehicleModels::class, 'vehicle_make_id', 'id');
   }
 }

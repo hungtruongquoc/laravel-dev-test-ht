@@ -40,7 +40,7 @@ const app = new Vue({
   },
   methods: {
     loadModels(makeId) {
-      this.$http.get('/models?make=' + makeId).catch(() => {
+      this.$http.get('/api/vehicle-model?make=' + makeId).catch(() => {
         this.modelList = null;
       });
     }
