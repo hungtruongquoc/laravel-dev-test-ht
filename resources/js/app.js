@@ -30,76 +30,101 @@ Vue.component('app-select', require('./components/DropdownComponent.vue').defaul
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-  el: '#app',
-  name: 'Page',
-  data() {
-    return {
-      modelList: null,
-      selectedMake: 1,
-      selectedModel: null,
-      client_name: null,
-      client_email: null,
-      description: null,
-      client_phone: null
-    };
-  },
-  mounted() {
-    this.loadPreviousValues();
-    this.loadModels(this.selectedMake);
-  },
-  methods: {
-    loadPreviousValues() {
-      const fields = ['client_name', 'client_email', 'description', 'client_phone'];
-      fields.forEach(this.setPreviousValue.bind(this));
+if (document.getElementById('request-list')) {
+  const requestList = new Vue({
+    el: '#request-list',
+    name: 'RequestList'
+  });
+}
+
+if(document.getElementById('app')) {
+  const app = new Vue({
+    el: '#app',
+    name: 'Page',
+    data() {
+      return {
+        modelList: null,
+        makeList: null,
+        selectedMake: 1,
+        selectedModel: null,
+        client_name: null,
+        client_email: null,
+        description: null,
+        client_phone: null
+      };
     },
-    setPreviousValue(fieldName) {
-      const previousHiddenInput = document.getElementById('previous-' + fieldName);
-      if (previousHiddenInput && previousHiddenInput.value) {
-        this[fieldName] = previousHiddenInput.value;
+    mounted() {
+      this.loadMakeList();
+      this.loadPreviousValues();
+      if (this.selectedMake) {
+        this.loadModels(this.selectedMake);
       }
     },
-    onGetModelSuccess({data: {data}}) {
-      this.modelList = JSON.parse(JSON.stringify(data));
-      if (this.modelList && this.modelList.length > 0) {
-        this.selectedModel = this.modelList[0].id;
+    methods: {
+      loadMakeList() {
+        const makeListEl = document.getElementById('make-list');
+        if (makeListEl) {
+          this.makeList = JSON.parse(makeListEl.value);
+          this.selectedMake = this.makeList[0].id;
+        }
+        else {
+          this.makeList = null;
+          this.selectedMake = null;
+        }
+      },
+      loadPreviousValues() {
+        const fields = ['client_name', 'client_email', 'description', 'client_phone'];
+        fields.forEach(this.setPreviousValue.bind(this));
+      },
+      setPreviousValue(fieldName) {
+        const previousHiddenInput = document.getElementById('previous-' + fieldName);
+        if (previousHiddenInput && previousHiddenInput.value) {
+          this[fieldName] = previousHiddenInput.value;
+        }
+      },
+      onGetModelSuccess({data: {data}}) {
+        this.modelList = JSON.parse(JSON.stringify(data));
+        if (this.modelList && this.modelList.length > 0) {
+          this.selectedModel = this.modelList[0].id;
+        }
+      },
+      onGetModelFailed() {
+        this.modelList = null;
+      },
+      loadModels(makeId) {
+        this.$http.get('/api/vehicle-model?make=' + makeId)
+          .then(this.onGetModelSuccess.bind(this))
+          .catch(this.onGetModelFailed.bind(this));
+      },
+      checkFormValidity(e) {
+        if (this.hasValidForm) {
+          return true;
+        }
+        e.preventDefault();
       }
     },
-    onGetModelFailed() {
-      this.modelList = null;
-    },
-    loadModels(makeId) {
-      this.$http.get('/api/vehicle-model?make=' + makeId)
-        .then(this.onGetModelSuccess.bind(this))
-        .catch(this.onGetModelFailed.bind(this));
-    },
-    checkFormValidity(e) {
-      if (this.hasValidForm) {
-        return true;
+    computed: {
+      hasInvalidName() {
+        return !this.client_name || this.client_name.length > 200;
+      },
+      hasInvalidForm() {
+        return !this.selectedModel || !this.selectedMake || this.hasInvalidDescription || this.hasInvalidName
+          || this.hasInvalidEmail || this.hasInvalidPhone;
+      },
+      hasInvalidEmail() {
+        return !this.client_email || this.client_email.match(/^.+@[^\.].*\.[a-z]{2,}$/g) === null;
+      },
+      hasValidForm() {
+        return !this.hasInvalidForm;
+      },
+      hasInvalidPhone() {
+        return !this.client_phone;
+      },
+      hasInvalidDescription() {
+        return !this.description || this.description.length > 10000 ||
+          this.description.match(/^[a-zA-Z\s]*$/g) === null;
       }
-      e.preventDefault();
     }
-  },
-  computed: {
-    hasInvalidName() {
-      return !this.client_name || this.client_name.length > 200;
-    },
-    hasInvalidForm() {
-      return !this.selectedModel || !this.selectedMake || this.hasInvalidDescription || this.hasInvalidName
-        || this.hasInvalidEmail || this.hasInvalidPhone;
-    },
-    hasInvalidEmail() {
-      return !this.client_email || this.client_email.match(/^.+@[^\.].*\.[a-z]{2,}$/g) === null;
-    },
-    hasValidForm() {
-      return !this.hasInvalidForm;
-    },
-    hasInvalidPhone() {
-      return !this.client_phone;
-    },
-    hasInvalidDescription() {
-      return !this.description || this.description.length > 10000 ||
-        this.description.match(/^[a-zA-Z\s]*$/g) === null;
-    }
-  }
-});
+  });
+}
+
