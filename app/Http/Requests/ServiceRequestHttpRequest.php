@@ -21,11 +21,23 @@ class ServiceRequestHttpRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'owner-email' => 'bail|required|email',
-      'owner-name' => 'bail|required|max:200',
-      'vehicle-make' => 'bail|required|numeric',
-      'vehicle-model' => 'bail|required|numeric',
-      'owner-phone' => 'nullable'
+      'client_email' => 'bail|required|email',
+      'client_name' => 'bail|required|max:200',
+      'vehicle_model_id' => 'bail|required|numeric',
+      'client_phone' => 'bail|required|alpha_dash',
+      'description' => 'bail|required|regex:/^[a-zA-Z\s]*$/|max:10000'
+    ];
+  }
+
+  /**
+   * Get custom attributes for validator errors.
+   *
+   * @return array
+   */
+  public function attributes() {
+    return [
+      'client_email' => 'your email',
+      'client_name' => 'your name'
     ];
   }
 }

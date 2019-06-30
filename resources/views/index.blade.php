@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+  <div id="app"></div>
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
@@ -11,10 +12,16 @@
       </div>
     </div>
   </header>
-
   <!-- List Tickets -->
   <section class="bg-light">
     <div class="container">
+      @if (session('createStatus'))
+        <div class="row">
+          <div class="alert alert-success col">
+            {{ session('createStatus') }}
+          </div>
+        </div>
+      @endif
       <div class="row">
           <table class="table table-striped">
             <thead>
