@@ -5,7 +5,7 @@
       @component('select', ['title' => 'Make', 'items' => $makes, 'id' => 'vehicle-make', 'name' => 'vehicle-make',
        'autofocus' => true])
       @endcomponent
-      @component('select', ['title' => 'Model', 'items' => [], 'id' => 'vehicle-model', 'name' => 'vehicle-model',
+      @component('select', ['title' => 'Model', 'items' => '', 'id' => 'vehicle-model', 'name' => 'vehicle-model',
       'disabled' => true])
       @endcomponent
       <div class="form-group">

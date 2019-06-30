@@ -5,9 +5,11 @@
  */
 
 require('./bootstrap');
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
 window.Vue = require('vue');
-
+Vue.use(VueAxios, axios);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -30,5 +32,10 @@ Vue.component('app-select', require('./components/DropdownComponent.vue').defaul
 
 const app = new Vue({
   el: '#app',
-  name: 'Page'
+  name: 'Page',
+  methods: {
+    loadModels(makeId) {
+      this.$http.get('/models?make=' + makeId);
+    }
+  }
 });

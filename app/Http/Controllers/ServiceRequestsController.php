@@ -29,7 +29,7 @@ class ServiceRequestsController extends Controller {
    * Show the create service request form
    */
   public function create() {
-    $makes = VehicleMakes::select(['id', 'title'])->get();
+    $makes = json_encode(VehicleMakes::select(['id', 'title'])->get());
     return view('create', compact('makes'));
   }
 }
