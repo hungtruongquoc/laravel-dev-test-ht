@@ -37,10 +37,28 @@ const app = new Vue({
     return {
       modelList: null,
       selectedMake: 1,
-      selectedModel: null
+      selectedModel: null,
+      client_name: null,
+      client_email: null,
+      description: null,
+      client_phone: null
     };
   },
+  mounted() {
+    this.loadPreviousValues();
+    this.loadModels(this.selectedMake);
+  },
   methods: {
+    loadPreviousValues() {
+      const fields = ['client_name', 'client_email', 'description', 'client_phone'];
+      fields.forEach(this.setPreviousValue.bind(this));
+    },
+    setPreviousValue(fieldName) {
+      const previousHiddenInput = document.getElementById('previous-' + fieldName);
+      if (previousHiddenInput && previousHiddenInput.value) {
+        this[fieldName] = previousHiddenInput.value;
+      }
+    },
     onGetModelSuccess({data: {data}}) {
       this.modelList = JSON.parse(JSON.stringify(data));
       if (this.modelList && this.modelList.length > 0) {
@@ -54,6 +72,34 @@ const app = new Vue({
       this.$http.get('/api/vehicle-model?make=' + makeId)
         .then(this.onGetModelSuccess.bind(this))
         .catch(this.onGetModelFailed.bind(this));
+    },
+    checkFormValidity(e) {
+      if (this.hasValidForm) {
+        return true;
+      }
+      e.preventDefault();
+    }
+  },
+  computed: {
+    hasInvalidName() {
+      return !this.client_name || this.client_name.length > 200;
+    },
+    hasInvalidForm() {
+      return !this.selectedModel || !this.selectedMake || this.hasInvalidDescription || this.hasInvalidName
+        || this.hasInvalidEmail || this.hasInvalidPhone;
+    },
+    hasInvalidEmail() {
+      return !this.client_email || this.client_email.match(/^.+@[^\.].*\.[a-z]{2,}$/g) === null;
+    },
+    hasValidForm() {
+      return !this.hasInvalidForm;
+    },
+    hasInvalidPhone() {
+      return !this.client_phone;
+    },
+    hasInvalidDescription() {
+      return !this.description || this.description.length > 10000 ||
+        this.description.match(/^[a-zA-Z\s]*$/g) === null;
     }
   }
 });
