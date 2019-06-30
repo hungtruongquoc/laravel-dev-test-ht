@@ -36,14 +36,16 @@ const app = new Vue({
   data() {
     return {
       modelList: null,
-      selectedMake: null,
+      selectedMake: 1,
       selectedModel: null
     };
   },
   methods: {
     onGetModelSuccess({data: {data}}) {
       this.modelList = JSON.parse(JSON.stringify(data));
-      this.selectedModel = null;
+      if (this.modelList && this.modelList.length > 0) {
+        this.selectedModel = this.modelList[0].id;
+      }
     },
     onGetModelFailed() {
       this.modelList = null;

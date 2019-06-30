@@ -3,7 +3,8 @@
     <label :for="id">{{title}}</label>
     <select class="form-control" :id="id" :name="name" :autofocus="autofocus"
             :disabled="hasNoItem" @change="emitSelectedKey">
-      <option v-for="item in optionList" :value="item.id" :key="item.id" :selected="item.id === value">
+      <option v-for="item in optionList" :value="item.id" :key="item.id"
+              :selected="isOptionSelected(item.id)">
         <slot name="item-title" :item="item"></slot>
       </option>
     </select>
@@ -26,6 +27,9 @@
       emitSelectedKey(event) {
         this.$emit('selected-item-changed', event.target.value);
         this.$emit('input', parseInt(event.target.value));
+      },
+      isOptionSelected(optionKey) {
+        return this.value && this.value.toString === optionKey;
       }
     },
     computed: {
