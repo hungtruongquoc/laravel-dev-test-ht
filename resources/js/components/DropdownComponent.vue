@@ -23,7 +23,8 @@
     ],
     data() {
       return {
-        optionList: null
+        optionList: null,
+        modelList: null
       }
     },
     created() {

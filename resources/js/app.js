@@ -33,9 +33,16 @@ Vue.component('app-select', require('./components/DropdownComponent.vue').defaul
 const app = new Vue({
   el: '#app',
   name: 'Page',
+  data() {
+    return {
+      modelList: null
+    }
+  },
   methods: {
     loadModels(makeId) {
-      this.$http.get('/models?make=' + makeId);
+      this.$http.get('/models?make=' + makeId).catch(() => {
+        this.modelList = null;
+      });
     }
   }
 });

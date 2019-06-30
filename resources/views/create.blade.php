@@ -2,11 +2,12 @@
 @section('content')
   <div class="container" id="app">
     <form method="POST" action="{{route('store')}}">
-      @component('select', ['title' => 'Make', 'items' => $makes, 'id' => 'vehicle-make', 'name' => 'vehicle-make',
+      @component('select', ['title' => 'Make', 'jsonItems' => $makes, 'id' => 'vehicle-make', 'name' =>
+      'vehicle-make',
        'autofocus' => true])
       @endcomponent
-      @component('select', ['title' => 'Model', 'items' => '', 'id' => 'vehicle-model', 'name' => 'vehicle-model',
-      'disabled' => true])
+      @component('select', ['title' => 'Model', 'items' => 'modelList', 'id' => 'vehicle-model',
+      'name' => 'vehicle-model','disabled' => true])
       @endcomponent
       <div class="form-group">
         <label for="owner-name" class="input-required">Owner's Name</label>
