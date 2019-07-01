@@ -39,9 +39,32 @@ if (document.getElementById('request-list')) {
     el: '#request-list',
     name: 'RequestList',
     methods: {
+      onDeletionCompleted({data: {id}}) {
+        if (id) {
+          this.$msgbox({
+            title: 'Request Completed',
+            message: `Request ${id} is deleted.`,
+            type: 'success',
+            confirmButtonText: 'OK',
+            showClose: false
+          });
+        }
+      },
+      onDeletionFailed(itemId) {
+        return ({response: {data: {message}}}) => {
+          this.$msgbox({
+            title: 'Request Failed',
+            message: `Request ${itemId} cannot be deleted. Error: ${message}.`,
+            type: 'error',
+            showClose: false,
+            confirmButtonText: 'OK'
+          });
+        };
+      },
       performDelete(itemId) {
-        console.log('Delete item: ', itemId);
-        this.$http.delete('/service-requests/' + itemId);
+        this.$http.delete('/service-requests/' + itemId)
+          .then(this.onDeletionCompleted.bind(this))
+          .catch(this.onDeletionFailed(itemId).bind(this));
       },
       deleteItem(event) {
         const message = 'This will permanently delete request ' + event.target.dataset.itemId + '. Continue?';
