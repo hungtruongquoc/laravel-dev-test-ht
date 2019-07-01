@@ -4,11 +4,9 @@
     @if($errors->any())
       <div class="alert alert-danger">Please correct invalid inputs</div>
     @endif
-    @if(isset($currentRequest))
-        <input type="hidden" value="{{$currentRequest}}" id="current-request">
-    @endif
     <small id="emailHelp" class="form-text text-info">* - All fields are required</small>
-    <form method="POST" action="{{route('store')}}" @submit="checkFormValidity">
+    <form method="POST" action="{{route('store')}}" @submit="checkFormValidity"
+          data-current-request="{{$currentRequest}}" id="request-form">
       @csrf
       <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'" v-model="selectedMake"
                   data-property="makeList"

@@ -73,14 +73,15 @@ if (document.getElementById('request-list')) {
           cancelButtonText: 'No',
           type: 'warning',
           showClose: false
-        }).then(this.performDelete.bind(this, event.target.dataset.itemId)).catch(() => {});
+        }).then(this.performDelete.bind(this, event.target.dataset.itemId)).catch(() => {
+        });
         event.preventDefault();
       }
     }
   });
 }
 
-if(document.getElementById('app')) {
+if (document.getElementById('app')) {
   const app = new Vue({
     el: '#app',
     name: 'Page',
@@ -107,14 +108,15 @@ if(document.getElementById('app')) {
     },
     methods: {
       loadCurrentRequest() {
-        const currentRequestEl = document.getElementById('current-request');
+        const currentRequestEl = document.getElementById('request-form');
         if (currentRequestEl) {
-          const {client_name, client_email, client_phone, description, id} = JSON.parse(currentRequestEl.value);
+          const {client_name, client_email, client_phone, description, id, vehicle_model_id} = JSON.parse(currentRequestEl.dataset.currentRequest);
           this.client_name = client_name;
           this.client_email = client_email;
           this.client_phone = client_phone;
           this.description = description;
           this.currentId = id;
+          this.selectedModel = parseInt(vehicle_model_id);
         }
       },
       loadSelectInitialList() {
