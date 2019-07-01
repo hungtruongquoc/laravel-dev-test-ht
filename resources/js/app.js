@@ -7,9 +7,13 @@
 require('./bootstrap');
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 window.Vue = require('vue');
-Vue.use(VueAxios, axios);
+// Set up the base URL for axios
+Vue.use(VueAxios, axios.create({baseURL: '/api'}));
+Vue.use(ElementUI);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -33,7 +37,25 @@ Vue.component('app-select', require('./components/DropdownComponent.vue').defaul
 if (document.getElementById('request-list')) {
   const requestList = new Vue({
     el: '#request-list',
-    name: 'RequestList'
+    name: 'RequestList',
+    methods: {
+      performDelete(itemId) {
+        console.log('Delete item: ', itemId);
+        this.$http.delete('/service-requests/' + itemId);
+      },
+      deleteItem(event) {
+        const message = 'This will permanently delete request ' + event.target.dataset.itemId + '. Continue?';
+        this.$confirm(message, 'Warning', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          type: 'warning',
+          showClose: false,
+          customClass: 'modal-dialog',
+          confirmButtonClass: 'btn btn-primary'
+        }).then(this.performDelete.bind(this, event.target.dataset.itemId)).catch(() => {});
+        event.preventDefault();
+      }
+    }
   });
 }
 
@@ -92,7 +114,7 @@ if(document.getElementById('app')) {
         this.modelList = null;
       },
       loadModels(makeId) {
-        this.$http.get('/api/vehicle-model?make=' + makeId)
+        this.$http.get('/vehicle-model?make=' + makeId)
           .then(this.onGetModelSuccess.bind(this))
           .catch(this.onGetModelFailed.bind(this));
       },

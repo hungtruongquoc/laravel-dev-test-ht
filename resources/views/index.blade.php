@@ -39,7 +39,8 @@
                 <td>{{ $request->updated_at->format('m/d/Y h:i a') }}</td>
                 <td>
                   <a href="{{ route('edit',[$request->id]) }}" class="btn btn-primary">EDIT</a>
-                  <a href="{{ route('service-request.delete',[$request->id]) }}" class="btn btn-danger">DELETE</a>
+                  <a href="{{ route('service-request.delete',[$request->id]) }}" class="btn btn-danger"
+                     @click="deleteItem" data-item-id="{{$request->id}}">DELETE</a>
                 </td>
               </tr>
               @endforeach
