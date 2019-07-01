@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\ServiceRequestDeleteHttpRequest;
-use App\Http\Requests\ServiceRequestHttpRequest;
-use App\Models\VehicleMakes;
-use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ServiceRequestsController extends Controller{
-  public function destroy(ServiceRequestDeleteHttpRequest $request) {
-    $validated = $request->validated();
-    dd($validated);
+  public function destroy($id) {
+    $currentRequest = ServiceRequests::find($id);
+    if (!is_null($currentRequest)) {
+      $currentRequest->delete();
+      return response()->json($currentRequest, 200);
+    }
+    return response()->json(['message' => 'No request found'], 404);
   }
 }

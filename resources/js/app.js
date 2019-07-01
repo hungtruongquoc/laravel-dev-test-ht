@@ -49,9 +49,7 @@ if (document.getElementById('request-list')) {
           confirmButtonText: 'Yes',
           cancelButtonText: 'No',
           type: 'warning',
-          showClose: false,
-          customClass: 'modal-dialog',
-          confirmButtonClass: 'btn btn-primary'
+          showClose: false
         }).then(this.performDelete.bind(this, event.target.dataset.itemId)).catch(() => {});
         event.preventDefault();
       }

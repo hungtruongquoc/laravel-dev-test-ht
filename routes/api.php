@@ -23,5 +23,5 @@ Route::namespace('API')->group(function() {
   Route::resource('vehicle-model', 'VehicleModelController')
        ->only(['index'])
        ->names(['index' => 'vehicle-model.list']);
-  Route::delete('service-request/{id}', 'ServiceRequestController@destroy')->name('service-request.delete');
+  Route::delete('service-requests/{id}', 'ServiceRequestsController@destroy')->name('service-request.delete');
 });
