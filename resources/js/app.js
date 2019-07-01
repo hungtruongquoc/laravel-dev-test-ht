@@ -93,27 +93,38 @@ if(document.getElementById('app')) {
         client_name: null,
         client_email: null,
         description: null,
-        client_phone: null
+        client_phone: null,
+        currentId: null
       };
     },
     mounted() {
-      this.loadMakeList();
+      this.loadSelectInitialList();
       this.loadPreviousValues();
       if (this.selectedMake) {
         this.loadModels(this.selectedMake);
       }
+      this.loadCurrentRequest();
     },
     methods: {
-      loadMakeList() {
-        const makeListEl = document.getElementById('make-list');
-        if (makeListEl) {
-          this.makeList = JSON.parse(makeListEl.value);
-          this.selectedMake = this.makeList[0].id;
+      loadCurrentRequest() {
+        const currentRequestEl = document.getElementById('current-request');
+        if (currentRequestEl) {
+          const {client_name, client_email, client_phone, description, id} = JSON.parse(currentRequestEl.value);
+          this.client_name = client_name;
+          this.client_email = client_email;
+          this.client_phone = client_phone;
+          this.description = description;
+          this.currentId = id;
         }
-        else {
-          this.makeList = null;
-          this.selectedMake = null;
-        }
+      },
+      loadSelectInitialList() {
+        // Load initial select list if the data property is set
+        const elementList = [...document.getElementsByClassName('select-input')];
+        elementList.forEach(element => {
+          if (element && element.dataset && element.dataset.list && element.dataset.property) {
+            this[element.dataset.property] = JSON.parse(element.dataset.list);
+          }
+        });
       },
       loadPreviousValues() {
         const fields = ['client_name', 'client_email', 'description', 'client_phone'];

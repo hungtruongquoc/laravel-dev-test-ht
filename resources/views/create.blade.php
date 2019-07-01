@@ -4,12 +4,15 @@
     @if($errors->any())
       <div class="alert alert-danger">Please correct invalid inputs</div>
     @endif
+    @if(isset($currentRequest))
+        <input type="hidden" value="{{$currentRequest}}" id="current-request">
+    @endif
     <small id="emailHelp" class="form-text text-info">* - All fields are required</small>
     <form method="POST" action="{{route('store')}}" @submit="checkFormValidity">
       @csrf
-      <input type="hidden" value="{{$makes}}" id="make-list">
       <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'" v-model="selectedMake"
-                  @selected-item-changed="loadModels" :items="makeList" :autofocus="true">
+                  data-property="makeList"
+                  @selected-item-changed="loadModels" :items="makeList" :autofocus="true" data-list="{{$makes}}">
         <template v-slot:item-title="slotProps">
           @{{ slotProps.item.title }}
         </template>
@@ -22,9 +25,8 @@
       </app-select>
       <div class="form-group">
         <label for="owner-name">Customer's Name</label>
-        <input type="hidden" value="{{old('client_name')}}" id="previous-client_name">
         <input type="text" class="form-control @error('client_name') is-invalid @enderror" id="owner-name"
-               placeholder="Please provide your full name"
+               placeholder="Please provide your full name" data-old-value="{{old('client_name')}}"
                name="client_name" maxlength="200" v-model="client_name">
         @error('client_name')
         <span class="invalid-feedback">{{$message}}</span>
@@ -32,9 +34,8 @@
       </div>
       <div class="form-group">
         <label for="owner-email">Email Address</label>
-        <input type="hidden" value="{{old('client_email')}}" id="previous-client_email">
         <input type="email" class="form-control @error('client_email') is-invalid @enderror" id="owner-email"
-               aria-describedby="emailHelp"
+               aria-describedby="emailHelp" data-old-value="{{old('client_email')}}"
                placeholder="Enter email" name="client_email" v-model="client_email">
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         @error('client_email')
@@ -44,18 +45,16 @@
       </div>
       <div class="form-group">
         <label for="owner-phone">Phone</label>
-        <input type="hidden" value="{{old('client_phone')}}" id="previous-client_phone">
         <input type="text" class="form-control @error('client_phone') is-invalid @enderror" id="owner-phone"
-               placeholder="Enter phone number" name="client_phone"
+               placeholder="Enter phone number" name="client_phone" data-old-value="{{old('client_phone')}}"
                v-model="client_phone">
         @error('client_phone')
         <span class="invalid-feedback">{{$message}}</span>
         @enderror
       </div>
       <div class="form-group">
-        <label for="service-description">Description</label>
         <input type="hidden" value="{{old('description')}}" id="previous-description">
-        <textarea id="service-description" name="description"
+        <textarea id="service-description" name="description" data-old-value="{{old('description')}}"
                   class="form-control @error('description') is-invalid @enderror " v-model="description"></textarea>
         @error('description')
         <span class="invalid-feedback">{{$message}}</span>

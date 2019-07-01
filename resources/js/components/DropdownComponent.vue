@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group">
+  <div class="form-group select-input">
     <label :for="id">{{title}}</label>
     <select class="form-control" :id="id" :name="name" :autofocus="autofocus"
             :disabled="hasNoItem" @change="emitSelectedKey">
@@ -23,6 +23,9 @@
       'disabled',
       'value'
     ],
+    mounted() {
+      console.log(this.$el.dataset);
+    },
     methods: {
       emitSelectedKey(event) {
         this.$emit('selected-item-changed', event.target.value);
@@ -34,11 +37,11 @@
     },
     computed: {
       optionList() {
-        if (this.items) {
-          if (typeof this.items === 'string') {
-            return JSON.parse(this.items);
-          }
-          return [].concat(this.items);
+        if (this.items && typeof this.items === 'string' && this.items !== '') {
+          return JSON.parse(this.items);
+        }
+        if (this.$el && this.$el.dataset.list) {
+          return JSON.parse(this.$el.dataset.list);
         }
         return null;
       },

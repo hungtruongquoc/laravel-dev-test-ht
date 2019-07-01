@@ -7,9 +7,7 @@ use App\Models\VehicleMakes;
 use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
 
-class ServiceRequestsController extends Controller
-{
-
+class ServiceRequestsController extends Controller{
   /**
    * [Display a paginated list of Service Requests in the system]
    * @return view
@@ -21,11 +19,14 @@ class ServiceRequestsController extends Controller
 
   /**
    * [This is the method you should use to show the edit screen]
-   * @param ServiceRequests $serviceRequest [get the object you are planning on editing]
+   * @param string $id [get the object you are planning on editing]
    * @return ...
    */
-  public function edit(ServiceRequests $serviceRequest) {
-
+  public function edit($id) {
+    $makes = json_encode(VehicleMakes::select(['id', 'title'])->get());
+    // Encodes the data into json so that the front end can pick up and load into the form
+    $currentRequest = json_encode(ServiceRequests::find($id));
+    return view('create', compact('makes','currentRequest'));
   }
 
   /**
@@ -45,8 +46,7 @@ class ServiceRequestsController extends Controller
         return redirect('/')->with('createStatus', 'New service request created successfully!');
       }
       return redirect('create')->with('createStatus', 'New service request cannot be saved! Please try again later!');
-    }
-    catch(Exception $ex) {
+    } catch (Exception $ex) {
       return redirect('create')->with('createStatus', 'New service request cannot be saved! Please try again later!');
     }
   }
