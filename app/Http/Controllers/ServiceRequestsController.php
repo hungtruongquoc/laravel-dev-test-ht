@@ -51,6 +51,12 @@ class ServiceRequestsController extends Controller{
     return view('create', compact('makes', 'status'));
   }
 
+  /**
+   * Create a new service request
+   *
+   * @param ServiceRequestHttpRequest $request
+   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+   */
   public function store(ServiceRequestHttpRequest $request) {
     $arguments = $request->validated();
     $arguments['status'] = 'new';
@@ -61,20 +67,25 @@ class ServiceRequestsController extends Controller{
       }
       return redirect('create')
         ->with('createStatus', 'New service request cannot be saved! Please try again later!');
-    } catch (Exception $ex) {
+    } catch (\Exception $ex) {
       return redirect('create')
         ->with('createStatus', 'New service request cannot be saved! Please try again later!');
     }
   }
 
+  /**
+   * Update an existing service request
+   *
+   * @param ServiceRequestUpdateHttpRequest $request
+   * @param $id
+   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+   */
   public function update(ServiceRequestUpdateHttpRequest $request, $id) {
     $currentRequest = ServiceRequests::find($id);
     try {
-      if ($currentRequest->update($request->validated())) {
-        return redirect('/')->with('updateStatus', 'The service request is updated successfully!');
-      }
-      return redirect('/');
-    } catch (Exception $ex) {
+      $currentRequest->update($request->validated());
+      return redirect('/')->with('updateStatus', 'The service request is updated successfully!');
+    } catch (\Exception $ex) {
       return redirect('create')
         ->with('updateStatus', 'The service request cannot be updated! Please try again later!');
     }

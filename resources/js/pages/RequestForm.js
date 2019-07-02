@@ -69,11 +69,7 @@ export default {
     },
     onGetModelSuccess({data: {data}}) {
       this.modelList = JSON.parse(JSON.stringify(data));
-      if (this.modelList && this.modelList.length > 0) {
-        // if (!this.selectedModel) {
-          this.selectedModel = this.modelList[0].id;
-        // }
-      }
+      this.updateSelectedModel();
     },
     onGetModelFailed() {
       this.modelList = null;
@@ -88,6 +84,20 @@ export default {
         return true;
       }
       e.preventDefault();
+    },
+    updateSelectedModel() {
+      if (!this.selectedModel) {
+        if (this.modelList && this.modelList.length > 0) {
+          this.selectedModel = this.modelList[0].id;
+        }
+      }
+      else {
+        if (this.modelList && this.modelList.length > 0) {
+          if (!this.modelList.some(item => item.id === this.selectedModel)) {
+            this.selectedModel = this.modelList[0].id;
+          }
+        }
+      }
     }
   },
   computed: {
@@ -108,7 +118,8 @@ export default {
       return !this.hasInvalidForm;
     },
     hasInvalidPhone() {
-      return !this.client_phone || this.client_phone.match(/(\d{3}[-\.]?\s?\d{3}[-\.]?\s?\d{4}\s?)?(x\d{4})?/g) === null;
+      return !this.client_phone ||
+        this.client_phone.match(/(\d{3}[-\.]?\s?\d{3}[-\.]?\s?\d{4}\s?)?(x\d{4})?/g) === null;
     },
     hasInvalidDescription() {
       return !this.description || this.description.length > 10000 ||

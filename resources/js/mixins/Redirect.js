@@ -1,6 +1,9 @@
 export default {
   methods: {
-    goBackToListPage() {
+    goBackToListPage(event = null) {
+      if (event) {
+        event.preventDefault();
+      }
       window.location.href = '/';
     },
   }
