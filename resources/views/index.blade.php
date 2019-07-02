@@ -33,7 +33,10 @@
                      placeholder="Type text to search and click 'Search'" v-model="searchText">
             </div>
             <div class="col-2">
-              <button type="submit" class="btn btn-secondary btn-block" :disabled="hasNoSearchText">Search</button>
+              <button type="submit" class="btn btn-info btn-block"
+                      :disabled="hasNoSearchText">
+                Search
+              </button>
             </div>
             <div class="col-2">
               <button class="btn btn-secondary btn-block" @click="clearSearchText">Reset</button>
@@ -44,7 +47,7 @@
       <div class="row">
         @if($requests->total() > 0)
           <p class="h4">Total: {{$requests->total()}} request(s)</p>
-          @else
+        @else
           <p class="h4 text-info">No request found</p>
         @endif
       </div>
