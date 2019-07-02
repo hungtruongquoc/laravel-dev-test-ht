@@ -70,8 +70,11 @@ class ServiceRequestsController extends Controller{
     $currentRequest = ServiceRequests::find($id);
     $currentRequest->fill($request->validated());
     try{
-      $currentRequest->save();
-      return redirect('/')->with('updateStatus', 'The service request is updated successfully!');
+      if ($currentRequest->isDirty()) {
+        $currentRequest->save();
+        return redirect('/')->with('updateStatus', 'The service request is updated successfully!');
+      }
+      return redirect('/');
     }
     catch(Exception $ex) {
       return redirect('create')->with('updateStatus', 'The service request cannot be updated! Please try again later!');
