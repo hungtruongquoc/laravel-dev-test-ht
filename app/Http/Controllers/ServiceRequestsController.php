@@ -7,7 +7,6 @@ use App\Http\Requests\ServiceRequestUpdateHttpRequest;
 use App\Models\VehicleMakes;
 use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
-use Illuminate\Support\Facades\Log;
 
 class ServiceRequestsController extends Controller{
   /**
@@ -60,9 +59,11 @@ class ServiceRequestsController extends Controller{
       if (!is_null($newRequest) && !is_null($newRequest->id)) {
         return redirect('/')->with('createStatus', 'New service request created successfully!');
       }
-      return redirect('create')->with('createStatus', 'New service request cannot be saved! Please try again later!');
+      return redirect('create')
+        ->with('createStatus', 'New service request cannot be saved! Please try again later!');
     } catch (Exception $ex) {
-      return redirect('create')->with('createStatus', 'New service request cannot be saved! Please try again later!');
+      return redirect('create')
+        ->with('createStatus', 'New service request cannot be saved! Please try again later!');
     }
   }
 
@@ -74,7 +75,8 @@ class ServiceRequestsController extends Controller{
       }
       return redirect('/');
     } catch (Exception $ex) {
-      return redirect('create')->with('updateStatus', 'The service request cannot be updated! Please try again later!');
+      return redirect('create')
+        ->with('updateStatus', 'The service request cannot be updated! Please try again later!');
     }
   }
 }
