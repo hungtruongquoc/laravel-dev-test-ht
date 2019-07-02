@@ -42,6 +42,9 @@
         </form>
       </div>
       <div class="row">
+        <p class="h4">Total: {{$requests->total()}} request(s)</p>
+      </div>
+      <div class="row">
         <table class="table table-striped">
           <thead>
           <th class="text-right">Ticket #</th>
@@ -66,7 +69,7 @@
           @endforeach
           </tbody>
         </table>
-        {{ $requests->links() }}
+        {{ $requests->appends(['search' => $searchText])->links() }}
       </div>
     </div>
   </section>
