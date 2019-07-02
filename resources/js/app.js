@@ -3,12 +3,13 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
 require('./bootstrap');
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import RequestListPage from './pages/RequestList';
+import RequestForm from './pages/RequestForm';
 
 window.Vue = require('vue');
 // Set up the base URL for axios
@@ -34,178 +35,11 @@ Vue.component('app-select', require('./components/DropdownComponent.vue').defaul
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const redirectMixin = {
-  methods: {
-    goBackToListPage() {
-      window.location.href = '/';
-    },
-  }
-};
-
 if (document.getElementById('request-list')) {
-  const requestList = new Vue({
-    el: '#request-list',
-    name: 'RequestList',
-    mixins: [redirectMixin],
-    mounted() {
-      this.removeFlashElement();
-    },
-    methods: {
-      removeFlashElement() {
-        if (document.getElementById('flash-alert-container')) {
-          const flashElement = document.getElementById('flash-alert-container');
-          setTimeout(() => {
-            flashElement.parentNode.removeChild(flashElement);
-          }, 5000);
-        }
-      },
-      onDeletionCompleted({data: {id}}) {
-        if (id) {
-          this.$msgbox({
-            title: 'Request Completed',
-            message: `Request ${id} is deleted.`,
-            type: 'success',
-            confirmButtonText: 'OK',
-            showClose: false
-          }).then(this.goBackToListPage);
-        }
-      },
-      onDeletionFailed(itemId) {
-        return ({response: {data: {message}}}) => {
-          this.$msgbox({
-            title: 'Request Failed',
-            message: `Request ${itemId} cannot be deleted. Error: ${message}.`,
-            type: 'error',
-            showClose: false,
-            confirmButtonText: 'OK'
-          });
-        };
-      },
-      performDelete(itemId) {
-        this.$http.delete('/service-requests/' + itemId)
-          .then(this.onDeletionCompleted.bind(this))
-          .catch(this.onDeletionFailed(itemId).bind(this));
-      },
-      deleteItem(event) {
-        const message = 'This will permanently delete request ' + event.target.dataset.itemId + '. Continue?';
-        const dialogOptions = {
-          confirmButtonText: 'Yes',
-          confirmButtonClass: 'btn btn-danger',
-          cancelButtonText: 'No',
-          type: 'warning',
-          showClose: false
-        };
-        this.$confirm(message, 'Warning', dialogOptions)
-          .then(this.performDelete.bind(this, event.target.dataset.itemId))
-          .catch(() => {});
-        event.preventDefault();
-      }
-    }
-  });
+  const requestList = new Vue(RequestListPage);
 }
 
 if (document.getElementById('app')) {
-  const app = new Vue({
-    el: '#app',
-    name: 'Page',
-    data() {
-      return {
-        modelList: null,
-        makeList: null,
-        selectedMake: null,
-        selectedModel: null,
-        client_name: null,
-        client_email: null,
-        description: null,
-        client_phone: null,
-        currentId: null
-      };
-    },
-    mounted() {
-      this.loadSelectInitialList();
-      this.loadPreviousValues();
-      if (this.selectedMake) {
-        this.loadModels(this.selectedMake);
-      }
-      this.loadCurrentRequest();
-    },
-    mixins: [redirectMixin],
-    methods: {
-      loadCurrentRequest() {
-        const currentRequestEl = document.getElementById('request-form');
-        if (currentRequestEl && currentRequestEl.dataset.currentRequest) {
-          const currentRequest = JSON.parse(currentRequestEl.dataset.currentRequest);
-          const {client_name, client_email, client_phone, description, id, vehicle_model_id} = currentRequest;
-          this.client_name = client_name;
-          this.client_email = client_email;
-          this.client_phone = client_phone;
-          this.description = description;
-          this.currentId = id;
-          this.selectedModel = parseInt(vehicle_model_id);
-        }
-      },
-      loadSelectInitialList() {
-        // Load initial select list if the data property is set
-        const elementList = [...document.getElementsByClassName('select-input')];
-        elementList.forEach(element => {
-          if (element && element.dataset && element.dataset.list && element.dataset.property) {
-            this[element.dataset.property] = JSON.parse(element.dataset.list);
-          }
-        });
-      },
-      loadPreviousValues() {
-        const fields = ['client_name', 'client_email', 'description', 'client_phone'];
-        fields.forEach(this.setPreviousValue.bind(this));
-      },
-      setPreviousValue(fieldName) {
-        const previousHiddenInput = document.getElementById('previous-' + fieldName);
-        if (previousHiddenInput && previousHiddenInput.value) {
-          this[fieldName] = previousHiddenInput.value;
-        }
-      },
-      onGetModelSuccess({data: {data}}) {
-        this.modelList = JSON.parse(JSON.stringify(data));
-        if (this.modelList && this.modelList.length > 0) {
-          this.selectedModel = this.modelList[0].id;
-        }
-      },
-      onGetModelFailed() {
-        this.modelList = null;
-      },
-      loadModels(makeId) {
-        this.$http.get('/vehicle-model?make=' + makeId)
-          .then(this.onGetModelSuccess.bind(this))
-          .catch(this.onGetModelFailed.bind(this));
-      },
-      checkFormValidity(e) {
-        if (this.hasValidForm) {
-          return true;
-        }
-        e.preventDefault();
-      }
-    },
-    computed: {
-      hasInvalidName() {
-        return !this.client_name || this.client_name.length > 200;
-      },
-      hasInvalidForm() {
-        return !this.selectedModel || !this.selectedMake || this.hasInvalidDescription || this.hasInvalidName
-          || this.hasInvalidEmail || this.hasInvalidPhone;
-      },
-      hasInvalidEmail() {
-        return !this.client_email || this.client_email.match(/^.+@[^\.].*\.[a-z]{2,}$/g) === null;
-      },
-      hasValidForm() {
-        return !this.hasInvalidForm;
-      },
-      hasInvalidPhone() {
-        return !this.client_phone;
-      },
-      hasInvalidDescription() {
-        return !this.description || this.description.length > 10000 ||
-          this.description.match(/^[a-zA-Z\s]*$/g) === null;
-      }
-    }
-  });
+  const app = new Vue(RequestForm);
 }
 
