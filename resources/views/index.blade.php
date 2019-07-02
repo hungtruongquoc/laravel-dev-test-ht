@@ -42,7 +42,11 @@
         </form>
       </div>
       <div class="row">
-        <p class="h4">Total: {{$requests->total()}} request(s)</p>
+        @if($requests->total() > 0)
+          <p class="h4">Total: {{$requests->total()}} request(s)</p>
+          @else
+          <p class="h4 text-info">No request found</p>
+        @endif
       </div>
       <div class="row">
         <table class="table table-striped">

@@ -68,15 +68,12 @@ class ServiceRequestsController extends Controller{
 
   public function update(ServiceRequestUpdateHttpRequest $request, $id) {
     $currentRequest = ServiceRequests::find($id);
-    $currentRequest->fill($request->validated());
-    try{
-      if ($currentRequest->isDirty()) {
-        $currentRequest->save();
+    try {
+      if ($currentRequest->update($request->validated())) {
         return redirect('/')->with('updateStatus', 'The service request is updated successfully!');
       }
       return redirect('/');
-    }
-    catch(Exception $ex) {
+    } catch (Exception $ex) {
       return redirect('create')->with('updateStatus', 'The service request cannot be updated! Please try again later!');
     }
   }
