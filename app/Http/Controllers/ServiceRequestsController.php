@@ -16,13 +16,18 @@ class ServiceRequestsController extends Controller{
    * @return view
    */
   public function index(Request $request) {
-    Log::info('Search text', [$request->all()]);
-//    if ($request->has('search', false)) {
-//      dd($request);
-//      Log::info('Search text', [$request->all()]);
-//    }
-    $requests = ServiceRequests::orderBy('updated_at', 'desc')->paginate(20);
-    return view('index', compact('requests'));
+    $query = $query = ServiceRequests::orderBy('updated_at', 'desc');
+    $searchText = null;
+    if ($request->has('search')) {
+      $searchText = $request->input('search');
+      $query->orWhere('description', 'LIKE', "%{$searchText}%")
+            ->orWhere('client_phone', 'LIKE', "%{$searchText}%")
+            ->orWhere('client_email', 'LIKE', "%{$searchText}%")
+            ->orWhere('status', 'LIKE', "%{$searchText}%")
+            ->orWhere('client_name', 'LIKE', "%{$searchText}%");
+    }
+    $requests = $query->paginate(20);
+    return view('index', compact('requests', 'searchText'));
   }
 
   /**
@@ -43,7 +48,8 @@ class ServiceRequestsController extends Controller{
    */
   public function create() {
     $makes = json_encode(VehicleMakes::select(['id', 'title'])->get());
-    return view('create', compact('makes'));
+    $status = 'new';
+    return view('create', compact('makes', 'status'));
   }
 
   public function store(ServiceRequestHttpRequest $request) {

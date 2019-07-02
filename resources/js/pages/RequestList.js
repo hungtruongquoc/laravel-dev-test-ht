@@ -11,11 +11,19 @@ export default {
   },
   mounted() {
     this.removeFlashElement();
+    this.initializeSearchText();
   },
   methods: {
-    attachSearchText() {
-      const form = this.$refs.searchForm;
-      form.action = form.dataset.url + '/?search=' + newVal;
+    clearSearchText() {
+      this.searchText = null;
+    },
+    initializeSearchText() {
+      if (this.$refs.searchText) {
+        const {previousValue} = this.$refs.searchText.dataset;
+        if (previousValue && previousValue !== '') {
+          this.searchText = previousValue;
+        }
+      }
     },
     removeFlashElement() {
       if (document.getElementById('flash-alert-container')) {
@@ -70,6 +78,9 @@ export default {
   computed: {
     hasNoSearchText() {
       return !this.searchText || this.searchText === '';
+    },
+    hasSearchText() {
+      return !this.hasNoSearchText;
     }
   }
 };
