@@ -2,9 +2,8 @@
   <div class="form-group select-input">
     <label :for="id">{{title}}</label>
     <select class="form-control" :id="id" :name="name" :autofocus="autofocus"
-            :disabled="hasNoItem" @change="emitSelectedKey">
-      <option v-for="item in optionList" :value="item.id" :key="item.id"
-              :selected="isOptionSelected(item.id)">
+            :disabled="hasNoItem" @change="emitSelectedKey" v-model="internalValue">
+      <option v-for="item in optionList" :value="item.id" :key="item.id">
         <slot name="item-title" :item="item"></slot>
       </option>
     </select>
@@ -23,20 +22,25 @@
       'disabled',
       'value'
     ],
-    mounted() {
-      console.log(this.$el.dataset);
+    data() {
+      return {
+        internalValue: null
+      }
     },
     methods: {
       emitSelectedKey(event) {
-        this.$emit('selected-item-changed', event.target.value);
+        this.$emit('selected-item-changed', parseInt(event.target.value));
         this.$emit('input', parseInt(event.target.value));
       },
       isOptionSelected(optionKey) {
-        if (this.value && this.value.toString === optionKey.toString) {
-          this.$emit('selected-item-changed', optionKey);
-          return true;
-        }
-        return false;
+        return this.value && this.value.toString === optionKey.toString;
+      }
+    },
+    watch: {
+      value(newVal) {
+        this.$emit('selected-item-changed', parseInt(newVal));
+        this.$emit('input', parseInt(newVal));
+        this.internalValue = newVal;
       }
     },
     computed: {
