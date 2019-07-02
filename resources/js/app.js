@@ -34,11 +34,31 @@ Vue.component('app-select', require('./components/DropdownComponent.vue').defaul
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+const redirectMixin = {
+  methods: {
+    goBackToListPage() {
+      window.location.href = '/';
+    },
+  }
+};
+
 if (document.getElementById('request-list')) {
   const requestList = new Vue({
     el: '#request-list',
     name: 'RequestList',
+    mixins: [redirectMixin],
+    mounted() {
+      this.removeFlashElement();
+    },
     methods: {
+      removeFlashElement() {
+        if (document.getElementById('flash-alert-container')) {
+          const flashElement = document.getElementById('flash-alert-container');
+          setTimeout(() => {
+            flashElement.parentNode.removeChild(flashElement);
+          }, 5000);
+        }
+      },
       onDeletionCompleted({data: {id}}) {
         if (id) {
           this.$msgbox({
@@ -47,7 +67,7 @@ if (document.getElementById('request-list')) {
             type: 'success',
             confirmButtonText: 'OK',
             showClose: false
-          });
+          }).then(this.goBackToListPage);
         }
       },
       onDeletionFailed(itemId) {
@@ -68,13 +88,16 @@ if (document.getElementById('request-list')) {
       },
       deleteItem(event) {
         const message = 'This will permanently delete request ' + event.target.dataset.itemId + '. Continue?';
-        this.$confirm(message, 'Warning', {
+        const dialogOptions = {
           confirmButtonText: 'Yes',
+          confirmButtonClass: 'btn btn-danger',
           cancelButtonText: 'No',
           type: 'warning',
           showClose: false
-        }).then(this.performDelete.bind(this, event.target.dataset.itemId)).catch(() => {
-        });
+        };
+        this.$confirm(message, 'Warning', dialogOptions)
+          .then(this.performDelete.bind(this, event.target.dataset.itemId))
+          .catch(() => {});
         event.preventDefault();
       }
     }
@@ -89,7 +112,7 @@ if (document.getElementById('app')) {
       return {
         modelList: null,
         makeList: null,
-        selectedMake: 1,
+        selectedMake: null,
         selectedModel: null,
         client_name: null,
         client_email: null,
@@ -106,11 +129,13 @@ if (document.getElementById('app')) {
       }
       this.loadCurrentRequest();
     },
+    mixins: [redirectMixin],
     methods: {
       loadCurrentRequest() {
         const currentRequestEl = document.getElementById('request-form');
-        if (currentRequestEl) {
-          const {client_name, client_email, client_phone, description, id, vehicle_model_id} = JSON.parse(currentRequestEl.dataset.currentRequest);
+        if (currentRequestEl && currentRequestEl.dataset.currentRequest) {
+          const currentRequest = JSON.parse(currentRequestEl.dataset.currentRequest);
+          const {client_name, client_email, client_phone, description, id, vehicle_model_id} = currentRequest;
           this.client_name = client_name;
           this.client_email = client_email;
           this.client_phone = client_phone;

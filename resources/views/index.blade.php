@@ -15,7 +15,7 @@
   <section class="bg-light">
     <div class="container" id="request-list">
       @if (session('createStatus'))
-        <div class="row">
+        <div class="row" id="flash-alert-container">
           <div class="alert alert-success col">
             {{ session('createStatus') }}
           </div>
