@@ -7,6 +7,7 @@ use App\Http\Requests\ServiceRequestUpdateHttpRequest;
 use App\Models\VehicleMakes;
 use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
+use Illuminate\Support\Facades\Route;
 
 class ServiceRequestsController extends Controller{
   /**
@@ -26,7 +27,8 @@ class ServiceRequestsController extends Controller{
             ->orWhere('client_name', 'LIKE', "%{$searchText}%");
     }
     $requests = $query->paginate(20);
-    return view('index', compact('requests', 'searchText'));
+    $currentRouteName = Route::currentRouteName();
+    return view('index', compact('requests', 'searchText', 'currentRouteName'));
   }
 
   /**
@@ -39,7 +41,8 @@ class ServiceRequestsController extends Controller{
     // Encodes the data into json so that the front end can pick up and load into the form
     $currentRequest = json_encode(ServiceRequests::with('vehicleModel')->find($id));
     $requestId = $id;
-    return view('create', compact('makes','currentRequest', 'requestId'));
+    $currentRouteName = Route::currentRouteName();
+    return view('create', compact('makes','currentRequest', 'requestId', 'currentRouteName'));
   }
 
   /**
@@ -48,7 +51,8 @@ class ServiceRequestsController extends Controller{
   public function create() {
     $makes = json_encode(VehicleMakes::select(['id', 'title'])->get());
     $status = 'new';
-    return view('create', compact('makes', 'status'));
+    $currentRouteName = Route::currentRouteName();
+    return view('create', compact('makes', 'status', 'currentRouteName'));
   }
 
   /**

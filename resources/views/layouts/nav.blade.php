@@ -6,16 +6,16 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active">
+      <li class="nav-item @active_route('home') active @endactive_route">
         <a class="nav-link" href="{{ route('home') }}">Current Tickets</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item @active_route('create') active @endactive_route">
         <a class="nav-link" href="{{ route('create') }}">Create a Ticket</a>
       </li>
       <li class="nav-item">
         <form action="{{ route('logout') }}" method="POST">
           @csrf
-          <button type="submit" class="btn btn-link">Logout</button>
+          <button type="submit" class="btn btn-light">Logout</button>
         </form>
       </li>
     </ul>
