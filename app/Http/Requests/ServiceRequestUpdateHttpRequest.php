@@ -26,7 +26,8 @@ class ServiceRequestUpdateHttpRequest extends FormRequest{
       'client_name' => 'bail|required|max:200',
       'vehicle_model_id' => 'bail|required|numeric',
       'client_phone' => array('bail', 'required', 'regex:/(\d{3}-?\s?\d{3}-?\s?\d{4}\s?)?(x\d{4})?/'),
-      'description' => 'bail|required|regex:/^[a-zA-Z\s\.,()-_\+\*\';]*$/|max:10000'
+      'description' => 'bail|required|regex:/^[a-zA-Z\s\.,()-_\+\*\';]*$/|max:10000',
+      'status' => 'bail|required|alpha'
     ];
   }
 }

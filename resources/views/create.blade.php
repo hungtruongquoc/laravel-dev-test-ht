@@ -19,7 +19,7 @@
       @endif
       <div class="form-group">
         <label for="status">Status</label>
-        <input type="text" class="form-control @error('client_name') is-invalid @enderror" id="status"
+        <input type="text" class="form-control @error('status') is-invalid @enderror" id="status"
                placeholder="Type status" data-old-value="{{old('status')}}"
                @if(isset($status)) value="{{$status}}" @endif
                name="status" maxlength="200" v-model="status" :disabled="hasNoRequestId">
