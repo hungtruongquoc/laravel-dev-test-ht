@@ -17,6 +17,16 @@
       @if(isset($currentRequest))
         @method('PATCH')
       @endif
+      <div class="form-group">
+        <label for="status">Status</label>
+        <input type="text" class="form-control @error('client_name') is-invalid @enderror" id="status"
+               placeholder="Type status" data-old-value="{{old('status')}}"
+               @if(isset($status)) value="{{$status}}" @endif
+               name="status" maxlength="200" v-model="status" :disabled="hasNoRequestId">
+        @error('status')
+        <span class="invalid-feedback">{{$message}}</span>
+        @enderror
+      </div>
       <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'"
                   data-property="makeList" v-model="selectedMake"
                   @selected-item-changed="loadModels" :items="makeList" :autofocus="true" data-list="{{$makes}}">
