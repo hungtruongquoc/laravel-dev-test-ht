@@ -25,7 +25,7 @@ class AddSoftDeleteToServiceRequests extends Migration
   public function down()
   {
     Schema::table('service_requests', function (Blueprint $table) {
-      //
+      $table->dropSoftDeletes();
     });
   }
 }

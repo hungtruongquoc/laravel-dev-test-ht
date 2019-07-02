@@ -25,6 +25,6 @@ class CreateVehicleMakeTable extends Migration
    * @return void
    */
   public function down(){
-    Schema::dropIfExists('vehicle_make');
+    Schema::dropIfExists('vehicle_makes');
   }
 }

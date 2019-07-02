@@ -11,10 +11,14 @@
 |
 */
 
-Route::prefix('requests')->group(function() {
-  Route::get('{id}/edit', 'ServiceRequestsController@edit')->name('edit');
-  Route::patch('{id}/patch', 'ServiceRequestsController@update')->name('patch');
-  Route::post('store', 'ServiceRequestsController@store')->name('store');
-  Route::get('create', 'ServiceRequestsController@create')->name('create');
+Route::middleware('auth')->group(function () {
+  Route::prefix('requests')->group(function() {
+    Route::get('{id}/edit', 'ServiceRequestsController@edit')->name('edit');
+    Route::patch('{id}/patch', 'ServiceRequestsController@update')->name('patch');
+    Route::post('store', 'ServiceRequestsController@store')->name('store');
+    Route::get('create', 'ServiceRequestsController@create')->name('create');
+  });
+  Route::get('/', 'ServiceRequestsController@index')->name('home');
 });
-Route::get('/', 'ServiceRequestsController@index')->name('home');
+
+Auth::routes();

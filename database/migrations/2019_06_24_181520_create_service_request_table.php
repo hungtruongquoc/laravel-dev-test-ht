@@ -30,6 +30,6 @@ class CreateServiceRequestTable extends Migration
    * @return void
    */
   public function down(){
-    Schema::dropIfExists('service_request');
+    Schema::dropIfExists('service_requests');
   }
 }

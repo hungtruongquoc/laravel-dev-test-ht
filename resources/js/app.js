@@ -35,6 +35,17 @@ Vue.component('app-select', require('./components/DropdownComponent.vue').defaul
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// const navbar = new Vue({
+//   el: '#navbarNav',
+//   name: 'Navbar',
+//   methods: {
+//     logout(event) {
+//       event.preventDefault();
+//       this.$http.post(event.target.href);
+//     }
+//   }
+// });
+
 if (document.getElementById('request-list')) {
   const requestList = new Vue(RequestListPage);
 }

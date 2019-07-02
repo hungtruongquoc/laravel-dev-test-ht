@@ -12,6 +12,12 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('create') }}">Create a Ticket</a>
       </li>
+      <li class="nav-item">
+        <form action="{{ route('logout') }}" method="POST">
+          @csrf
+          <button type="submit" class="btn btn-link">Logout</button>
+        </form>
+      </li>
     </ul>
   </div>
 </nav>
