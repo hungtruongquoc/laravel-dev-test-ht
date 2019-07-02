@@ -13,7 +13,8 @@ export default {
       client_email: null,
       description: null,
       client_phone: null,
-      currentId: null
+      currentId: null,
+      status: null
     };
   },
   mounted() {
@@ -23,6 +24,9 @@ export default {
     if (this.selectedMake) {
       this.loadModels(this.selectedMake);
     }
+    if (this.hasNoRequestId) {
+      this.status = 'new';
+    }
   },
   mixins: [RedirectMixin],
   methods: {
@@ -30,7 +34,7 @@ export default {
       const currentRequestEl = document.getElementById('request-form');
       if (currentRequestEl && currentRequestEl.dataset.currentRequest) {
         const currentRequest = JSON.parse(currentRequestEl.dataset.currentRequest);
-        const {client_name, client_email, client_phone, description, id, vehicle_model_id} = currentRequest;
+        const {client_name, client_email, client_phone, description, id, vehicle_model_id, status} = currentRequest;
         this.client_name = client_name;
         this.client_email = client_email;
         this.client_phone = client_phone;
@@ -38,6 +42,7 @@ export default {
         this.currentId = id;
         this.selectedModel = parseInt(vehicle_model_id);
         this.selectedMake = parseInt(currentRequest.vehicle_model.vehicle_make_id);
+        this.status = status;
       }
     },
     loadSelectInitialList() {
@@ -53,7 +58,7 @@ export default {
       }
     },
     loadPreviousValues() {
-      const fieldIds = ['client-name', 'client-email', 'description', 'client-phone'];
+      const fieldIds = ['client-name', 'client-email', 'description', 'client-phone', 'status'];
       fieldIds.forEach(this.setPreviousValue.bind(this));
     },
     setPreviousValue(fieldId) {
@@ -103,11 +108,17 @@ export default {
       return !this.hasInvalidForm;
     },
     hasInvalidPhone() {
-      return !this.client_phone || this.client_phone.match(/^([0-9]( |-)?)?(\(?[0-9]{3}\)?|[0-9]{3})( |-)?([0-9]{3}( |-)?[0-9]{4}|[a-zA-Z0-9]{7})$/g) === null;
+      return !this.client_phone || this.client_phone.match(/(\d{3}[-\.]?\s?\d{3}[-\.]?\s?\d{4}\s?)?(x\d{4})?/g) === null;
     },
     hasInvalidDescription() {
       return !this.description || this.description.length > 10000 ||
-        this.description.match(/^[a-zA-Z\s\.,()-_\+\*]*$/g) === null;
+        this.description.match(/^[a-zA-Z\s\.,()-_\+\*';]*$/g) === null;
+    },
+    hasRequestId() {
+      return !!this.currentId;
+    },
+    hasNoRequestId() {
+      return !this.hasRequestId;
     }
   }
 };
