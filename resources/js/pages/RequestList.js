@@ -14,7 +14,8 @@ export default {
   },
   methods: {
     attachSearchText() {
-      console.log(this.$refs.searchText);
+      const form = this.$refs.searchForm;
+      form.action = form.dataset.url + '/?search=' + newVal;
     },
     removeFlashElement() {
       if (document.getElementById('flash-alert-container')) {
@@ -69,12 +70,6 @@ export default {
   computed: {
     hasNoSearchText() {
       return !this.searchText || this.searchText === '';
-    }
-  },
-  watch: {
-    searchText(newVal) {
-      const form = this.$refs.searchForm;
-      form.setAttribute('action', form.dataset.url + '?search=' + newVal);
     }
   }
 };

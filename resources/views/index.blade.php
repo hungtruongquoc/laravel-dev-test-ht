@@ -24,7 +24,7 @@
       @endif
       <div class="row">
         <form style="width:100%" method="GET" data-url="{{route('home')}}" action="{{route('home')}}"
-              @submit="attachSearchText" ref="searchForm">
+              ref="searchForm" @submit="attachSearchText">
           <div class="form-row pt-5 pb-5">
             <div class="col-10">
               <label for="search-text" class="sr-only">Type text to search and click 'Search'</label>

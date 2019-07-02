@@ -7,13 +7,20 @@ use App\Http\Requests\ServiceRequestUpdateHttpRequest;
 use App\Models\VehicleMakes;
 use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
+use Illuminate\Support\Facades\Log;
 
 class ServiceRequestsController extends Controller{
   /**
    * [Display a paginated list of Service Requests in the system]
+   * @param $request Request Request object
    * @return view
    */
-  public function index() {
+  public function index(Request $request) {
+    Log::info('Search text', [$request->all()]);
+//    if ($request->has('search', false)) {
+//      dd($request);
+//      Log::info('Search text', [$request->all()]);
+//    }
     $requests = ServiceRequests::orderBy('updated_at', 'desc')->paginate(20);
     return view('index', compact('requests'));
   }
