@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ServiceRequestHttpRequest;
+use App\Http\Requests\ServiceRequestUpdateHttpRequest;
 use App\Models\VehicleMakes;
 use Illuminate\Http\Request;
 use App\Models\ServiceRequests;
@@ -26,7 +27,8 @@ class ServiceRequestsController extends Controller{
     $makes = json_encode(VehicleMakes::select(['id', 'title'])->get());
     // Encodes the data into json so that the front end can pick up and load into the form
     $currentRequest = json_encode(ServiceRequests::with('vehicleModel')->find($id));
-    return view('create', compact('makes','currentRequest'));
+    $requestId = $id;
+    return view('create', compact('makes','currentRequest', 'requestId'));
   }
 
   /**
@@ -48,6 +50,18 @@ class ServiceRequestsController extends Controller{
       return redirect('create')->with('createStatus', 'New service request cannot be saved! Please try again later!');
     } catch (Exception $ex) {
       return redirect('create')->with('createStatus', 'New service request cannot be saved! Please try again later!');
+    }
+  }
+
+  public function update(ServiceRequestUpdateHttpRequest $request, $id) {
+    $currentRequest = ServiceRequests::find($id);
+    $currentRequest->fill($request->validated());
+    try{
+      $currentRequest->save();
+      return redirect('/')->with('updateStatus', 'The service request is updated successfully!');
+    }
+    catch(Exception $ex) {
+      return redirect('create')->with('updateStatus', 'The service request cannot be updated! Please try again later!');
     }
   }
 }

@@ -18,11 +18,11 @@ export default {
   },
   mounted() {
     this.loadSelectInitialList();
+    this.loadCurrentRequest();
     this.loadPreviousValues();
     if (this.selectedMake) {
       this.loadModels(this.selectedMake);
     }
-    this.loadCurrentRequest();
   },
   mixins: [RedirectMixin],
   methods: {
@@ -53,19 +53,21 @@ export default {
       }
     },
     loadPreviousValues() {
-      const fields = ['client_name', 'client_email', 'description', 'client_phone'];
-      fields.forEach(this.setPreviousValue.bind(this));
+      const fieldIds = ['client-name', 'client-email', 'description', 'client-phone'];
+      fieldIds.forEach(this.setPreviousValue.bind(this));
     },
-    setPreviousValue(fieldName) {
-      const previousHiddenInput = document.getElementById('previous-' + fieldName);
-      if (previousHiddenInput && previousHiddenInput.value) {
-        this[fieldName] = previousHiddenInput.value;
+    setPreviousValue(fieldId) {
+      const element = document.getElementById(fieldId);
+      if (this.hasOldData && element) {
+        this[element.name] = element.dataset.oldValue;
       }
     },
     onGetModelSuccess({data: {data}}) {
       this.modelList = JSON.parse(JSON.stringify(data));
       if (this.modelList && this.modelList.length > 0) {
-        this.selectedModel = this.modelList[0].id;
+        // if (!this.selectedModel) {
+          this.selectedModel = this.modelList[0].id;
+        // }
       }
     },
     onGetModelFailed() {
@@ -84,6 +86,9 @@ export default {
     }
   },
   computed: {
+    hasOldData() {
+      return document.getElementById('error-message');
+    },
     hasInvalidName() {
       return !this.client_name || this.client_name.length > 200;
     },
@@ -98,11 +103,11 @@ export default {
       return !this.hasInvalidForm;
     },
     hasInvalidPhone() {
-      return !this.client_phone;
+      return !this.client_phone || this.client_phone.match(/^([0-9]( |-)?)?(\(?[0-9]{3}\)?|[0-9]{3})( |-)?([0-9]{3}( |-)?[0-9]{4}|[a-zA-Z0-9]{7})$/g) === null;
     },
     hasInvalidDescription() {
       return !this.description || this.description.length > 10000 ||
-        this.description.match(/^[a-zA-Z\s]*$/g) === null;
+        this.description.match(/^[a-zA-Z\s\.,()-_\+\*]*$/g) === null;
     }
   }
 };
