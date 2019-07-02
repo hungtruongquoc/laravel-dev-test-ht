@@ -19,13 +19,13 @@
       @endif
       <div class="form-group">
         <label for="status">Status</label>
-        <input type="text" class="form-control @error('status') is-invalid @enderror" id="status"
-               placeholder="Type status" data-old-value="{{old('status')}}"
-               @if(isset($status)) value="{{$status}}" @endif
-               name="status" maxlength="200" v-model="status" :disabled="hasNoRequestId">
-        @error('status')
-        <span class="invalid-feedback">{{$message}}</span>
-        @enderror
+        <select id="status" v-model="status" name="status" class="form-control"
+                data-previous-value="{{old('status')}}">
+          <option value="new" class="text-capitalize">New</option>
+          <option value="ready for pickup" class="text-capitalize">ready for pickup</option>
+          <option value="waiting on parts" class="text-capitalize">waiting on parts</option>
+          <option value="closed" class="text-capitalize">Closed</option>
+        </select>
       </div>
       <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'"
                   data-property="makeList" v-model="selectedMake"
