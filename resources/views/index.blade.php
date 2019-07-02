@@ -23,16 +23,20 @@
         </div>
       @endif
       <div class="row">
-        <form style="width:100%" method="GET" data-url="{{route('home')}}" action="{{route('home')}}"
-              ref="searchForm" @submit="attachSearchText">
+        <form style="width:100%" method="GET" data-url="{{route('home')}}"
+              action="{{route('home')}}" ref="searchForm">
           <div class="form-row pt-5 pb-5">
-            <div class="col-10">
+            <div class="col-8">
               <label for="search-text" class="sr-only">Type text to search and click 'Search'</label>
-              <input type="text" class="form-control" id="search-text" ref="searchText"
+              <input type="text" class="form-control" id="search-text" ref="searchText" name="search"
+                     @if(!is_null($searchText)) data-previous-value="{{$searchText}}" @endif
                      placeholder="Type text to search and click 'Search'" v-model="searchText">
             </div>
             <div class="col-2">
               <button type="submit" class="btn btn-secondary btn-block" :disabled="hasNoSearchText">Search</button>
+            </div>
+            <div class="col-2">
+              <button class="btn btn-secondary btn-block" @click="clearSearchText">Reset</button>
             </div>
           </div>
         </form>
