@@ -4,10 +4,18 @@ export default {
   el: '#request-list',
   name: 'RequestList',
   mixins: [RedirectMixin],
+  data() {
+    return {
+      searchText: null
+    }
+  },
   mounted() {
     this.removeFlashElement();
   },
   methods: {
+    attachSearchText() {
+      console.log(this.$refs.searchText);
+    },
     removeFlashElement() {
       if (document.getElementById('flash-alert-container')) {
         const flashElement = document.getElementById('flash-alert-container');
@@ -56,6 +64,17 @@ export default {
         .then(this.performDelete.bind(this, event.target.dataset.itemId))
         .catch(() => {});
       event.preventDefault();
+    }
+  },
+  computed: {
+    hasNoSearchText() {
+      return !this.searchText || this.searchText === '';
+    }
+  },
+  watch: {
+    searchText(newVal) {
+      const form = this.$refs.searchForm;
+      form.setAttribute('action', form.dataset.url + '?search=' + newVal);
     }
   }
 };
