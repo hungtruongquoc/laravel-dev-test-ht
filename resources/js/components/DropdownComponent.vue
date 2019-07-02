@@ -40,6 +40,9 @@
         if (this.items && typeof this.items === 'string' && this.items !== '') {
           return JSON.parse(this.items);
         }
+        if (this.items && Array.isArray(this.items)) {
+          return this.items;
+        }
         if (this.$el && this.$el.dataset.list) {
           return JSON.parse(this.$el.dataset.list);
         }
