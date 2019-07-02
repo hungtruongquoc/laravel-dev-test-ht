@@ -25,7 +25,7 @@ class ServiceRequestsController extends Controller{
   public function edit($id) {
     $makes = json_encode(VehicleMakes::select(['id', 'title'])->get());
     // Encodes the data into json so that the front end can pick up and load into the form
-    $currentRequest = json_encode(ServiceRequests::find($id));
+    $currentRequest = json_encode(ServiceRequests::with('vehicleModel')->find($id));
     return view('create', compact('makes','currentRequest'));
   }
 

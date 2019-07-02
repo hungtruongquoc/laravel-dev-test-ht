@@ -32,7 +32,11 @@
         this.$emit('input', parseInt(event.target.value));
       },
       isOptionSelected(optionKey) {
-        return this.value && this.value.toString === optionKey;
+        if (this.value && this.value.toString === optionKey.toString) {
+          this.$emit('selected-item-changed', optionKey);
+          return true;
+        }
+        return false;
       }
     },
     computed: {

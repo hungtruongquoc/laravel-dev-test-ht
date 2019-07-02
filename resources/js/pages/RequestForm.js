@@ -37,6 +37,7 @@ export default {
         this.description = description;
         this.currentId = id;
         this.selectedModel = parseInt(vehicle_model_id);
+        this.selectedMake = parseInt(currentRequest.vehicle_model.vehicle_make_id);
       }
     },
     loadSelectInitialList() {
@@ -47,6 +48,9 @@ export default {
           this[element.dataset.property] = JSON.parse(element.dataset.list);
         }
       });
+      if (!this.selectedMake) {
+        this.selectedMake = this.makeList[0].id;
+      }
     },
     loadPreviousValues() {
       const fields = ['client_name', 'client_email', 'description', 'client_phone'];

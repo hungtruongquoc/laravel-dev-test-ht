@@ -10,7 +10,7 @@
           id="request-form">
       @csrf
       <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'" v-model="selectedMake"
-                  data-property="makeList"
+                  data-property="makeList" v-model="selectedMake"
                   @selected-item-changed="loadModels" :items="makeList" :autofocus="true" data-list="{{$makes}}">
         <template v-slot:item-title="slotProps">
           @{{ slotProps.item.title }}
