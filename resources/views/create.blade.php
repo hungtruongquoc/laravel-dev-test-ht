@@ -17,7 +17,7 @@
       @if(isset($currentRequest))
         @method('PATCH')
       @endif
-      <div class="form-group">
+      <div class="form-group" v-if="hasRequestId">
         <label for="status">Status</label>
         <select id="status" v-model="status" name="status" class="form-control"
                 data-previous-value="{{old('status')}}">
@@ -26,6 +26,10 @@
           <option value="waiting on parts" class="text-capitalize">waiting on parts</option>
           <option value="closed" class="text-capitalize">Closed</option>
         </select>
+      </div>
+      <div class="form-group" v-if="hasNoRequestId">
+        <label for="status">Status</label>
+        <input type="text" class="form-control text-capitalize" readonly name="status" value="new">
       </div>
       <app-select title="Make" :id="'vehicle-make'" :name="'vehicle-make'"
                   data-property="makeList" v-model="selectedMake"
