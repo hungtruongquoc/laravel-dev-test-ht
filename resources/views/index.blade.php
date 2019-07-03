@@ -35,7 +35,7 @@
             <div class="col-2">
               <button type="submit" class="btn btn-info btn-block"
                       :disabled="hasNoSearchText">
-                Search
+                <font-awesome-icon icon="search"></font-awesome-icon> Search
               </button>
             </div>
             <div class="col-2">
@@ -44,12 +44,16 @@
           </div>
         </form>
       </div>
-      <div class="row">
+      <div class="row top-grid" style="position: relative">
         @if($requests->total() > 0)
           <p class="h4">Total: {{$requests->total()}} request(s)</p>
         @else
           <p class="h4 text-info">No request found</p>
         @endif
+          <a href="{{ route('create') }}" class="btn btn-outline-info"
+             style="position: absolute; top: -10px; right: 0">
+            <font-awesome-icon icon="plus-square" size="lg"></font-awesome-icon> New Request
+          </a>
       </div>
       <div class="row">
         <table class="table table-striped">
@@ -68,9 +72,13 @@
               <td class="text-capitalize">{{ $request->status }}</td>
               <td class="text-center">{{ $request->updated_at->format('m/d/Y h:i A') }}</td>
               <td>
-                <a href="{{ route('edit',[$request->id]) }}" class="btn btn-primary">EDIT</a>
+                <a href="{{ route('edit',[$request->id]) }}" class="btn btn-primary">
+                  <font-awesome-icon icon="edit"></font-awesome-icon>
+                </a>
                 <a href="{{ route('service-request.delete',[$request->id]) }}" class="btn btn-danger"
-                   @click="deleteItem" data-item-id="{{$request->id}}">DELETE</a>
+                   @click="deleteItem" data-item-id="{{$request->id}}">
+                  <font-awesome-icon icon="trash-alt"></font-awesome-icon>
+                </a>
               </td>
             </tr>
           @endforeach
