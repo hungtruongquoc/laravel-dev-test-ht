@@ -5,14 +5,14 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" style="position: relative; width: 100%">
       <li class="nav-item @active_route('home') active @endactive_route">
         <a class="nav-link" href="{{ route('home') }}">Current Tickets</a>
       </li>
       <li class="nav-item @active_route('create') active @endactive_route">
         <a class="nav-link" href="{{ route('create') }}">Create a Ticket</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" style="position: absolute; right: 0">
         <form action="{{ route('logout') }}" method="POST">
           @csrf
           <button type="submit" class="btn btn-light">Logout</button>
