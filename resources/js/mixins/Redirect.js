@@ -1,7 +1,7 @@
 export default {
   methods: {
     goBackToListPage(event = null) {
-      if (event) {
+      if (event && typeof event === 'object') {
         event.preventDefault();
       }
       window.location.href = '/';
