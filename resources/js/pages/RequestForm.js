@@ -53,7 +53,7 @@ export default {
           this[element.dataset.property] = JSON.parse(element.dataset.list);
         }
       });
-      if (!this.selectedMake) {
+      if (!this.selectedMake && this.makeList) {
         this.selectedMake = this.makeList[0].id;
       }
     },
