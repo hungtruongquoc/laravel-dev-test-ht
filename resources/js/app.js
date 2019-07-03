@@ -3,6 +3,8 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
+
 require('./bootstrap');
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -10,11 +12,17 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import RequestListPage from './pages/RequestList';
 import RequestForm from './pages/RequestForm';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {faSearch, faUserSecret, faTrashAlt, faEdit, faPlus} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 window.Vue = require('vue');
 // Set up the base URL for axios
 Vue.use(VueAxios, axios.create({baseURL: '/api'}));
 Vue.use(ElementUI);
+
+library.add([faUserSecret, faSearch, faTrashAlt, faEdit, faPlusSquare]);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
