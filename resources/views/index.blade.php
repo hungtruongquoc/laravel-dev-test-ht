@@ -33,13 +33,13 @@
                      placeholder="Type text to search and click 'Search'" v-model="searchText">
             </div>
             <div class="col-2">
-              <button type="submit" class="btn btn-info btn-block"
+              <button type="submit" class="btn btn-outline-info btn-block"
                       :disabled="hasNoSearchText">
                 <font-awesome-icon icon="search"></font-awesome-icon> Search
               </button>
             </div>
             <div class="col-2">
-              <button class="btn btn-secondary btn-block" @click="clearSearchText">Reset</button>
+              <button class="btn btn-outline-secondary btn-block" @click="clearSearchText">Reset</button>
             </div>
           </div>
         </form>
@@ -50,9 +50,9 @@
         @else
           <p class="h4 text-info">No request found</p>
         @endif
-          <a href="{{ route('create') }}" class="btn btn-outline-info"
+          <a href="{{ route('create') }}" class="btn btn-outline-secondary"
              style="position: absolute; top: -10px; right: 0">
-            <font-awesome-icon icon="plus-square" size="lg"></font-awesome-icon> New Request
+            <font-awesome-icon icon="plus"></font-awesome-icon> New Request
           </a>
       </div>
       <div class="row">
@@ -69,13 +69,13 @@
             <tr>
               <td class="text-right">{{ $request->id }}</td>
               <td>{{ $request->client_name }}</td>
-              <td class="text-capitalize">{{ $request->status }}</td>
+              <td class="text-capitalize"><request-status status="{{$request->status}}"></request-status></td>
               <td class="text-center">{{ $request->updated_at->format('m/d/Y h:i A') }}</td>
               <td>
-                <a href="{{ route('edit',[$request->id]) }}" class="btn btn-primary">
+                <a href="{{ route('edit',[$request->id]) }}" class="btn btn-outline-info">
                   <font-awesome-icon icon="edit"></font-awesome-icon>
                 </a>
-                <a href="{{ route('service-request.delete',[$request->id]) }}" class="btn btn-danger"
+                <a href="{{ route('service-request.delete',[$request->id]) }}" class="btn btn-outline-danger"
                    @click="deleteItem" data-item-id="{{$request->id}}">
                   <font-awesome-icon icon="trash-alt"></font-awesome-icon>
                 </a>

@@ -13,7 +13,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import RequestListPage from './pages/RequestList';
 import RequestForm from './pages/RequestForm';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faSearch, faUserSecret, faTrashAlt, faEdit, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faSearch, faUserSecret, faTrashAlt, faEdit, faPlus, faCheckCircle} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 window.Vue = require('vue');
@@ -21,7 +21,7 @@ window.Vue = require('vue');
 Vue.use(VueAxios, axios.create({baseURL: '/api'}));
 Vue.use(ElementUI);
 
-library.add([faUserSecret, faSearch, faTrashAlt, faEdit, faPlusSquare]);
+library.add([faUserSecret, faSearch, faTrashAlt, faEdit, faPlus, faCheckCircle]);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 /**
  * The following block of code may be used to automatically register your
@@ -36,6 +36,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('app-select', require('./components/DropdownComponent.vue').default);
+Vue.component('request-status', require('./components/RequestStatus.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
