@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::namespace('API')->group(function() {
+  Route::post('/login', ['as' => 'api.auth.login', 'uses' => 'AuthController@login']);
+  Route::get('/login/refresh', ['as' => 'api.auth.login.refresh', 'uses' => 'AuthController@refresh']);
   Route::resource('vehicle-make', 'VehicleMakeController')
        ->only(['index'])
        ->names(['index' => 'vehicle-make.list']);
